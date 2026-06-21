@@ -20,10 +20,14 @@ const sequelize = new Sequelize(
 );
 
 const UserModel = require('./User');
+const SocioModel = require('./Socio');
+
 const User = UserModel(sequelize);
+const Socio = SocioModel(sequelize);
 
 module.exports = {
   sequelize,
   Sequelize,
-  User
+  User,
+  Socio
 };
