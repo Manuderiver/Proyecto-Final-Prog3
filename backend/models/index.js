@@ -25,9 +25,13 @@ const SocioModel = require('./Socio');
 const User = UserModel(sequelize);
 const Socio = SocioModel(sequelize);
 
+const PlanModel = require('./Plan');
+const Plan = PlanModel(sequelize);
+
 module.exports = {
   sequelize,
   Sequelize,
   User,
-  Socio
+  Socio,
+  Plan
 };
