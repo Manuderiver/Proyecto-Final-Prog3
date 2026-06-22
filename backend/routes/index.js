@@ -3,6 +3,7 @@ const router = express.Router();
 const authRoutes = require('./auth');
 const sociosRoutes = require('./socios');
 const planesRoutes = require('./planes');
+const pagosRoutes = require('./pagos');
 
 // Ruta de prueba
 router.get('/health', (req, res) => {
@@ -18,6 +19,7 @@ router.get('/health', (req, res) => {
 router.use('/auth', authRoutes);
 router.use('/socios', sociosRoutes);
 router.use('/planes', planesRoutes);
+router.use('/pagos', pagosRoutes);
 
 // Ruta de ejemplo
 router.get('/test', (req, res) => {
