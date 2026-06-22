@@ -1,252 +1,343 @@
-# Proyecto Final - Programación III
+# Proyecto Final - Sistema de Gestión de Gimnasio
 
-## Descripción
+## Integrantes
 
-Este proyecto consiste en el desarrollo de una aplicación web Full-Stack basada en una arquitectura de microservicios utilizando Docker Compose. El sistema implementa una API REST desarrollada con Node.js, Express y Sequelize, conectada a una base de datos PostgreSQL, incluyendo autenticación mediante JWT y gestión de entidades relacionadas con un gimnasio.
+* Manuel Aguilar
+* Agustín González
 
-La aplicación se ejecuta completamente mediante contenedores Docker, permitiendo una configuración sencilla y reproducible del entorno de desarrollo.
+## Carrera
+
+Tecnicatura Universitaria en Programación - Universidad Tecnológica Nacional (UTN)
 
 ---
 
-## Tecnologías Utilizadas
+# Descripción
 
-### Backend
+Sistema de Gestión de Gimnasio desarrollado como Proyecto Final de la materia Programación III.
+
+La aplicación permite administrar socios, planes y pagos mediante una API REST desarrollada con Node.js, Express y PostgreSQL utilizando Sequelize como ORM.
+
+Además, incorpora autenticación mediante JWT para la gestión segura de usuarios y acceso a rutas protegidas.
+
+Toda la solución se encuentra containerizada mediante Docker y Docker Compose, permitiendo levantar el entorno completo de desarrollo con un único comando.
+
+---
+
+# Tecnologías utilizadas
+
+## Backend
 
 * Node.js
-* Express.js
-* Sequelize ORM
+* Express
+* Sequelize
 * PostgreSQL
 * JWT (JSON Web Token)
-* bcryptjs
-* Docker
+* CORS
+* Helmet
+* Morgan
+* dotenv
 
-### Infraestructura
+## Frontend
+
+* React
+
+## Infraestructura y herramientas
 
 * Docker
 * Docker Compose
-* PostgreSQL 15
-* Redis 7
 * Caddy Reverse Proxy
+* Redis
 * pgAdmin 4
+* Postman
 
 ---
 
-## Arquitectura del Sistema
+# Arquitectura del proyecto
 
-```text
-┌─────────────┐
-│   Cliente   │
-└──────┬──────┘
-       │
-       ▼
-┌─────────────┐
-│    Caddy    │
-│ ReverseProxy│
-└──────┬──────┘
-       │
- ┌─────┴─────┐
- ▼           ▼
-Frontend   Backend
- React     Express
-               │
-               ▼
-         PostgreSQL
-```
+Proyecto-Final-Prog3/
 
-Todos los servicios se ejecutan dentro de contenedores Docker y se comunican mediante una red interna.
+├── backend/
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── migrations/
+│   ├── models/
+│   ├── routes/
+│   ├── tests/
+│   └── server.js
+│
+├── frontend/
+│   └── src/
+│
+├── database/
+│   └── init.sql
+│
+├── caddy/
+│
+├── pgadmin/
+│
+├── postman/
+│   └── ProyectoFinal.postman_collection.json
+│
+├── docker-compose.yml
+│
+└── README.md
 
 ---
 
-## Funcionalidades Implementadas
+# Funcionalidades implementadas
 
-### Autenticación JWT
-
-El sistema permite registrar usuarios, iniciar sesión y acceder a rutas protegidas mediante tokens JWT.
-
-#### Funcionalidades
+## Autenticación
 
 * Registro de usuarios
-* Login de usuarios
-* Generación de tokens JWT
-* Validación de tokens
-* Acceso a perfil protegido
-
-#### Endpoints
-
-| Método | Endpoint           | Descripción                            |
-| ------ | ------------------ | -------------------------------------- |
-| POST   | /api/auth/register | Registrar usuario                      |
-| POST   | /api/auth/login    | Iniciar sesión                         |
-| GET    | /api/auth/perfil   | Obtener perfil del usuario autenticado |
-
----
+* Inicio de sesión
+* Generación de token JWT
+* Validación de token
+* Protección de rutas
+* Consulta de perfil autenticado
 
 ## Gestión de Socios
 
-Permite administrar los socios registrados en el gimnasio.
-
-### Datos almacenados
-
-* Nombre
-* Apellido
-* DNI
-* Email
-* Teléfono
-* Fecha de nacimiento
-* Estado activo/inactivo
-
-### Endpoints
-
-| Método | Endpoint        | Descripción          |
-| ------ | --------------- | -------------------- |
-| POST   | /api/socios     | Crear socio          |
-| GET    | /api/socios     | Listar socios        |
-| GET    | /api/socios/:id | Obtener socio por ID |
-| PUT    | /api/socios/:id | Actualizar socio     |
-| DELETE | /api/socios/:id | Eliminar socio       |
-
----
+* Crear socio
+* Obtener todos los socios
+* Obtener socio por ID
+* Actualizar socio
+* Eliminar socio
 
 ## Gestión de Planes
 
-Permite administrar los planes disponibles para los socios.
-
-### Datos almacenados
-
-* Nombre
-* Descripción
-* Precio
-* Duración en meses
-* Estado activo/inactivo
-
-### Endpoints
-
-| Método | Endpoint        | Descripción         |
-| ------ | --------------- | ------------------- |
-| POST   | /api/planes     | Crear plan          |
-| GET    | /api/planes     | Listar planes       |
-| GET    | /api/planes/:id | Obtener plan por ID |
-| PUT    | /api/planes/:id | Actualizar plan     |
-| DELETE | /api/planes/:id | Eliminar plan       |
-
----
+* Crear plan
+* Obtener todos los planes
+* Obtener plan por ID
+* Actualizar plan
+* Eliminar plan
 
 ## Gestión de Pagos
 
-Permite registrar los pagos realizados por los socios.
-
-### Datos almacenados
-
-* Monto
-* Fecha de pago
-* Método de pago
-* Socio asociado
-
-### Endpoints
-
-| Método | Endpoint       | Descripción         |
-| ------ | -------------- | ------------------- |
-| POST   | /api/pagos     | Crear pago          |
-| GET    | /api/pagos     | Listar pagos        |
-| GET    | /api/pagos/:id | Obtener pago por ID |
-| PUT    | /api/pagos/:id | Actualizar pago     |
-| DELETE | /api/pagos/:id | Eliminar pago       |
+* Crear pago
+* Obtener todos los pagos
+* Obtener pago por ID
+* Actualizar pago
+* Eliminar pago
 
 ---
 
-## Relaciones Implementadas
+# Modelo de datos
 
-### Plan - Socio
+## Socio
 
-Un plan puede estar asociado a múltiples socios.
+| Campo           | Tipo    |
+| --------------- | ------- |
+| id              | Integer |
+| nombre          | String  |
+| apellido        | String  |
+| dni             | String  |
+| email           | String  |
+| telefono        | String  |
+| fechaNacimiento | Date    |
+| activo          | Boolean |
+| planId          | Integer |
 
-```text
-Plan 1 ---- N Socios
+## Plan
+
+| Campo         | Tipo    |
+| ------------- | ------- |
+| id            | Integer |
+| nombre        | String  |
+| descripcion   | String  |
+| precio        | Decimal |
+| duracionMeses | Integer |
+| activo        | Boolean |
+
+## Pago
+
+| Campo      | Tipo    |
+| ---------- | ------- |
+| id         | Integer |
+| monto      | Decimal |
+| fechaPago  | Date    |
+| metodoPago | String  |
+| socioId    | Integer |
+
+## Usuario
+
+| Campo    | Tipo    |
+| -------- | ------- |
+| id       | Integer |
+| nombre   | String  |
+| email    | String  |
+| password | String  |
+
+---
+
+# Relaciones
+
+* Un Plan puede tener muchos Socios.
+* Un Socio pertenece a un Plan.
+* Un Socio puede registrar múltiples Pagos.
+* Un Pago pertenece a un Socio.
+
+---
+
+# Endpoints disponibles
+
+## Endpoints generales
+
+| Método | Endpoint    |
+| ------ | ----------- |
+| GET    | /health     |
+| GET    | /api/health |
+| GET    | /api/test   |
+
+---
+
+## Autenticación
+
+| Método | Endpoint           |
+| ------ | ------------------ |
+| POST   | /api/auth/register |
+| POST   | /api/auth/login    |
+| GET    | /api/auth/perfil   |
+
+---
+
+## Socios
+
+| Método | Endpoint        |
+| ------ | --------------- |
+| GET    | /api/socios     |
+| GET    | /api/socios/:id |
+| POST   | /api/socios     |
+| PUT    | /api/socios/:id |
+| DELETE | /api/socios/:id |
+
+---
+
+## Planes
+
+| Método | Endpoint        |
+| ------ | --------------- |
+| GET    | /api/planes     |
+| GET    | /api/planes/:id |
+| POST   | /api/planes     |
+| PUT    | /api/planes/:id |
+| DELETE | /api/planes/:id |
+
+---
+
+## Pagos
+
+| Método | Endpoint       |
+| ------ | -------------- |
+| GET    | /api/pagos     |
+| GET    | /api/pagos/:id |
+| POST   | /api/pagos     |
+| PUT    | /api/pagos/:id |
+| DELETE | /api/pagos/:id |
+
+---
+
+# Ejecución del proyecto
+
+## Requisitos
+
+* Docker Desktop
+* Docker Compose
+* Git
+
+## Clonar repositorio
+
+```bash
+git clone <url-del-repositorio>
+cd Proyecto-Final-Prog3
 ```
 
-### Socio - Pago
+## Levantar entorno completo
 
-Un socio puede registrar múltiples pagos.
-
-```text
-Socio 1 ---- N Pagos
+```bash
+docker compose up --build
 ```
 
 ---
 
-## Base de Datos
+# Servicios disponibles
 
-Las tablas principales implementadas son:
-
-* users
-* socios
-* planes
-* pagos
-
-Todas las entidades son gestionadas mediante Sequelize ORM y almacenadas en PostgreSQL.
+| Servicio         | URL                          |
+| ---------------- | ---------------------------- |
+| Frontend React   | http://localhost:3000        |
+| Backend API      | http://localhost:3001        |
+| Health Check API | http://localhost:3001/health |
+| API Base         | http://localhost:3001/api    |
+| pgAdmin          | http://localhost:5050        |
 
 ---
 
-## Colección Postman
+# pgAdmin
 
-Se incluye la colección:
+Credenciales por defecto:
+
+Email:
+
+```text
+admin@example.com
+```
+
+Contraseña:
+
+```text
+admin123
+```
+
+---
+
+# Colección Postman
+
+Dentro de la carpeta:
+
+```text
+postman/
+```
+
+se encuentra la colección:
 
 ```text
 ProyectoFinal.postman_collection.json
 ```
 
-La misma contiene todas las pruebas realizadas sobre los endpoints de:
-
-* Autenticación
-* Socios
-* Planes
-* Pagos
+La misma contiene ejemplos de solicitudes para probar los distintos endpoints de la API.
 
 ---
 
-## Ejecución del Proyecto
+# Health Check
 
-### Construcción de contenedores
+Verificación del estado de la aplicación:
 
-```bash
-docker compose build
+Endpoint:
+
+```text
+GET /api/health
 ```
 
-### Levantar servicios
+Respuesta esperada:
 
-```bash
-docker compose up
-```
-
-### Levantar en segundo plano
-
-```bash
-docker compose up -d
-```
-
-### Detener servicios
-
-```bash
-docker compose down
+```json
+{
+  "status": "OK",
+  "message": "API funcionando correctamente",
+  "timestamp": "2026-06-22T03:46:37.916Z",
+  "environment": "development"
+}
 ```
 
 ---
 
-## Integrantes
+# Estado actual del proyecto
 
-* Manuel Aguilar
-* Agustín [Apellido]
-
----
-
-## Estado del Proyecto
-
-Proyecto funcional con:
-
-* Autenticación JWT completa.
-* CRUD completo de Socios.
-* CRUD completo de Planes.
-* CRUD completo de Pagos.
-* Persistencia en PostgreSQL.
+* Backend implementado y funcional.
+* Base de datos PostgreSQL configurada.
+* ORM Sequelize configurado.
+* Autenticación JWT implementada.
 * Docker Compose operativo.
-* Pruebas realizadas mediante Postman.
+* pgAdmin integrado.
+* Colección Postman incluida.
+* Frontend React inicial configurado para futuras funcionalidades.
