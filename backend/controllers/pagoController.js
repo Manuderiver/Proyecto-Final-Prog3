@@ -1,10 +1,19 @@
-const { Pago } = require('../models');
+const { Pago, Socio } = require('../models');
 
 const obtenerPagos = async (req, res) => {
 try {
-    const pagos = await Pago.findAll();
+
+    const pagos = await Pago.findAll({
+    include: [
+        {
+        model: Socio,
+        as: 'socio'
+        }
+    ]
+    });
 
     res.json(pagos);
+
 } catch (error) {
     console.error(error);
 
@@ -16,7 +25,18 @@ try {
 
 const obtenerPagoPorId = async (req, res) => {
 try {
-    const pago = await Pago.findByPk(req.params.id);
+
+    const pago = await Pago.findByPk(
+    req.params.id,
+    {
+        include: [
+        {
+            model: Socio,
+            as: 'socio'
+        }
+        ]
+    }
+    );
 
     if (!pago) {
     return res.status(404).json({
@@ -37,6 +57,7 @@ try {
 
 const crearPago = async (req, res) => {
 try {
+
     const pago = await Pago.create(req.body);
 
     res.status(201).json(pago);
@@ -52,6 +73,7 @@ try {
 
 const actualizarPago = async (req, res) => {
 try {
+
     const pago = await Pago.findByPk(req.params.id);
 
     if (!pago) {
@@ -75,6 +97,7 @@ try {
 
 const eliminarPago = async (req, res) => {
 try {
+
     const pago = await Pago.findByPk(req.params.id);
 
     if (!pago) {

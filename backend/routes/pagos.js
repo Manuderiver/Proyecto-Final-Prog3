@@ -10,14 +10,16 @@ actualizarPago,
 eliminarPago
 } = require('../controllers/pagoController');
 
-router.get('/', obtenerPagos);
+const { verificarToken } = require('../middleware/auth');
 
-router.get('/:id', obtenerPagoPorId);
+router.get('/', verificarToken, obtenerPagos);
 
-router.post('/', crearPago);
+router.get('/:id', verificarToken, obtenerPagoPorId);
 
-router.put('/:id', actualizarPago);
+router.post('/', verificarToken, crearPago);
 
-router.delete('/:id', eliminarPago);
+router.put('/:id', verificarToken, actualizarPago);
+
+router.delete('/:id', verificarToken, eliminarPago);
 
 module.exports = router;

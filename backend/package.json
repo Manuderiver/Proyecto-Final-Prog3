@@ -32,6 +32,6 @@
     "supertest": "^6.3.3"
   },
   "keywords": ["express", "sequelize", "postgresql", "api"],
-  "author": "Tu Nombre",
+  "author": "Manuel Aguilar - Agustín González",
   "license": "MIT"
 }

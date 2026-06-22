@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 
 const {
@@ -9,10 +10,16 @@ actualizarPlan,
 eliminarPlan
 } = require('../controllers/planController');
 
-router.get('/', obtenerPlanes);
-router.get('/:id', obtenerPlanPorId);
-router.post('/', crearPlan);
-router.put('/:id', actualizarPlan);
-router.delete('/:id', eliminarPlan);
+const { verificarToken } = require('../middleware/auth');
+
+router.get('/', verificarToken, obtenerPlanes);
+
+router.get('/:id', verificarToken, obtenerPlanPorId);
+
+router.post('/', verificarToken, crearPlan);
+
+router.put('/:id', verificarToken, actualizarPlan);
+
+router.delete('/:id', verificarToken, eliminarPlan);
 
 module.exports = router;

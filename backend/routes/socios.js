@@ -10,14 +10,16 @@ actualizarSocio,
 eliminarSocio
 } = require('../controllers/socioController');
 
-router.get('/', obtenerSocios);
+const { verificarToken } = require('../middleware/auth');
 
-router.get('/:id', obtenerSocioPorId);
+router.get('/', verificarToken, obtenerSocios);
 
-router.post('/', crearSocio);
+router.get('/:id', verificarToken, obtenerSocioPorId);
 
-router.put('/:id', actualizarSocio);
+router.post('/', verificarToken, crearSocio);
 
-router.delete('/:id', eliminarSocio);
+router.put('/:id', verificarToken, actualizarSocio);
+
+router.delete('/:id', verificarToken, eliminarSocio);
 
 module.exports = router;
