@@ -1,11 +1,10 @@
-{
+  {
   "info": {
-    "_postman_id": "c896257a-54d2-4fc4-aaec-91c244b209b5",
+    "_postman_id": "20252898-3d2f-4c3e-812d-a43ddb245b9b",
     "name": "Proyecto Final Prog III - Gimnasio",
     "description": "Backend API del Sistema de Gestión de Gimnasio.  \nAutenticación JWT, Socios y Planes.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "55591848",
-    "_collection_link": "https://go.postman.co/collection/55591848-c896257a-54d2-4fc4-aaec-91c244b209b5?source=collection_link"
+    "_exporter_id": "39918821"
   },
   "item": [
     {
@@ -505,12 +504,187 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Asistencias",
+      "item": [
+        {
+          "name": "Crear asistencia",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZ3VzdGluQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg1MjgzMywiZXhwIjoxNzgyOTM5MjMzfQ.qR1mglYjGTC5xkmMW5fOE_EEB-XuroFeZHkTP8d3AsM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"fecha\": \"2026-06-22\",\r\n    \"horaIngreso\": \"18:30\",\r\n    \"observaciones\": \"Ingreso registrado\",\r\n    \"socioId\": 1\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/asistencias",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "asistencias"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener asistencias",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZ3VzdGluQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg1MjgzMywiZXhwIjoxNzgyOTM5MjMzfQ.qR1mglYjGTC5xkmMW5fOE_EEB-XuroFeZHkTP8d3AsM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/asistencias",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "asistencias"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener asistencia por ID",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZ3VzdGluQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg1MjgzMywiZXhwIjoxNzgyOTM5MjMzfQ.qR1mglYjGTC5xkmMW5fOE_EEB-XuroFeZHkTP8d3AsM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/asistencias/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "asistencias",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar asistencia",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZ3VzdGluQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg1MjgzMywiZXhwIjoxNzgyOTM5MjMzfQ.qR1mglYjGTC5xkmMW5fOE_EEB-XuroFeZHkTP8d3AsM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"observaciones\": \"Ingreso actualizado desde Postman\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:3001/api/asistencias/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "asistencias",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar asistencia",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZ3VzdGluQGdtYWlsLmNvbSIsImlhdCI6MTc4Mjg1MjgzMywiZXhwIjoxNzgyOTM5MjMzfQ.qR1mglYjGTC5xkmMW5fOE_EEB-XuroFeZHkTP8d3AsM",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:3001/api/asistencias/1",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "3001",
+              "path": [
+                "api",
+                "asistencias",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "variable": [
     {
-      "key": "auth_secret_09rr",
-      "secret": true
+      "key": "auth_secret_09rr"
     }
   ]
 }
