@@ -23,11 +23,13 @@ const UserModel = require('./User');
 const SocioModel = require('./Socio');
 const PlanModel = require('./Plan');
 const PagoModel = require('./Pago');
+const AsistenciaModel = require('./Asistencia');
 
 const User = UserModel(sequelize);
 const Socio = SocioModel(sequelize);
 const Plan = PlanModel(sequelize);
 const Pago = PagoModel(sequelize);
+const Asistencia = AsistenciaModel(sequelize);
 
 /*
 |--------------------------------------------------------------------------
@@ -55,11 +57,23 @@ Pago.belongsTo(Socio, {
   as: 'socio'
 });
 
+Socio.hasMany(Asistencia, {
+  foreignKey: 'socioId',
+  as: 'asistencias'
+});
+
+
+Asistencia.belongsTo(Socio, {
+  foreignKey: 'socioId',
+  as: 'socio'
+});
+
 module.exports = {
   sequelize,
   Sequelize,
   User,
   Socio,
   Plan,
-  Pago
+  Pago,
+  Asistencia
 };
