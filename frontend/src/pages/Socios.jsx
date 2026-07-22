@@ -3,56 +3,56 @@ import api from "../services/api";
 
 function Socios() {
 
-  const [socios, setSocios] = useState([]);
+const [socios, setSocios] = useState([]);
 
-  const cargarSocios = async () => {
+const cargarSocios = async () => {
     try {
-      const response = await api.get("/socios");
-      setSocios(response.data);
+    const response = await api.get("/socios");
+    setSocios(response.data);
     } catch (error) {
-      console.log(error);
+    console.log(error);
     }
-  };
+};
 
 
-  useEffect(() => {
+useEffect(() => {
     cargarSocios();
-  }, []);
+}, []);
 
 
-  return (
+return (
     <div>
-      <h1>Socios</h1>
+    <h1>Socios</h1>
 
-      <table border="1">
+    <table border="1">
         <thead>
-          <tr>
+        <tr>
             <th>Nombre</th>
             <th>Apellido</th>
             <th>DNI</th>
             <th>Email</th>
             <th>Teléfono</th>
-          </tr>
+        </tr>
         </thead>
 
         <tbody>
 
-          {socios.map((socio) => (
+        {socios.map((socio) => (
             <tr key={socio.id}>
-              <td>{socio.nombre}</td>
-              <td>{socio.apellido}</td>
-              <td>{socio.dni}</td>
-              <td>{socio.email}</td>
-              <td>{socio.telefono}</td>
+            <td>{socio.nombre}</td>
+            <td>{socio.apellido}</td>
+            <td>{socio.dni}</td>
+            <td>{socio.email}</td>
+            <td>{socio.telefono}</td>
             </tr>
-          ))}
+        ))}
 
         </tbody>
 
-      </table>
+    </table>
 
     </div>
-  );
+);
 }
 
 export default Socios;
