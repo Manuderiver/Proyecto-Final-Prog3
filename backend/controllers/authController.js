@@ -5,7 +5,9 @@ const register = async (req, res) => {
   try {
     const { nombre, email, password } = req.body;
 
-    const existente = await User.findOne({ where: { email } });
+    const existente = await User.findOne({
+      where: { email }
+    });
 
     if (existente) {
       return res.status(400).json({
@@ -21,16 +23,19 @@ const register = async (req, res) => {
 
     const token = generarToken(user);
 
-    res.status(201).json({
+    return res.status(201).json({
       message: 'Usuario registrado exitosamente',
       user,
       token
     });
 
   } catch (error) {
-    console.error('Error en register:', error);
 
-    res.status(500).json({
+    if (process.env.NODE_ENV !== 'test') {
+      console.error('Error en register:', error);
+    }
+
+    return res.status(500).json({
       error: 'Error al registrar usuario'
     });
   }
@@ -38,6 +43,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
+
     const { email, password } = req.body;
 
     const user = await User.findOne({
@@ -50,8 +56,7 @@ const login = async (req, res) => {
       });
     }
 
-    const passwordValida =
-      await user.validarPassword(password);
+    const passwordValida = await user.validarPassword(password);
 
     if (!passwordValida) {
       return res.status(401).json({
@@ -61,16 +66,19 @@ const login = async (req, res) => {
 
     const token = generarToken(user);
 
-    res.json({
+    return res.json({
       message: 'Login exitoso',
       user,
       token
     });
 
   } catch (error) {
-    console.error('Error en login:', error);
 
-    res.status(500).json({
+    if (process.env.NODE_ENV !== 'test') {
+      console.error('Error en login:', error);
+    }
+
+    return res.status(500).json({
       error: 'Error al iniciar sesión'
     });
   }
@@ -79,9 +87,7 @@ const login = async (req, res) => {
 const perfil = async (req, res) => {
   try {
 
-    const user = await User.findByPk(
-      req.user.id
-    );
+    const user = await User.findByPk(req.user.id);
 
     if (!user) {
       return res.status(404).json({
@@ -89,12 +95,17 @@ const perfil = async (req, res) => {
       });
     }
 
-    res.json({ user });
+    return res.json({
+      user
+    });
 
   } catch (error) {
-    console.error('Error en perfil:', error);
 
-    res.status(500).json({
+    if (process.env.NODE_ENV !== 'test') {
+      console.error('Error en perfil:', error);
+    }
+
+    return res.status(500).json({
       error: 'Error al obtener perfil'
     });
   }
