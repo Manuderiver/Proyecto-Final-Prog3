@@ -1,130 +1,188 @@
 const { Socio, Plan } = require('../models');
+const { ValidationError, UniqueConstraintError } = require('sequelize');
 
 const obtenerSocios = async (req, res) => {
-try {
+    try {
 
-    const socios = await Socio.findAll({
-    include: [
-        {
-        model: Plan,
-        as: 'plan'
+        const socios = await Socio.findAll({
+            include: [{
+                model: Plan,
+                as: 'plan'
+            }]
+        });
+
+        res.json(socios);
+
+    } catch (error) {
+
+        if (process.env.NODE_ENV !== 'test') {
+            console.error(error);
         }
-    ]
-    });
 
-    res.json(socios);
+        res.status(500).json({
+            error: 'Error interno del servidor'
+        });
 
-} catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-    error: 'Error al obtener socios'
-    });
-}
+    }
 };
 
 const obtenerSocioPorId = async (req, res) => {
-try {
 
-    const socio = await Socio.findByPk(
-    req.params.id,
-    {
-        include: [
-        {
-            model: Plan,
-            as: 'plan'
+    try {
+
+        const socio = await Socio.findByPk(req.params.id, {
+            include: [{
+                model: Plan,
+                as: 'plan'
+            }]
+        });
+
+        if (!socio) {
+            return res.status(404).json({
+                error: 'Socio no encontrado'
+            });
         }
-        ]
+
+        res.json(socio);
+
+    } catch (error) {
+
+        if (process.env.NODE_ENV !== 'test') {
+            console.error(error);
+        }
+
+        res.status(500).json({
+            error: 'Error interno del servidor'
+        });
+
     }
-    );
 
-    if (!socio) {
-    return res.status(404).json({
-        error: 'Socio no encontrado'
-    });
-    }
-
-    res.json(socio);
-
-} catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-    error: 'Error al obtener socio'
-    });
-}
 };
 
 const crearSocio = async (req, res) => {
-try {
 
-    const socio = await Socio.create(req.body);
+    try {
 
-    res.status(201).json(socio);
+        const socio = await Socio.create(req.body);
 
-} catch (error) {
-    console.error(error);
+        res.status(201).json(socio);
 
-    res.status(500).json({
-    error: 'Error al crear socio'
-    });
-}
+    } catch (error) {
+
+        if (process.env.NODE_ENV !== 'test') {
+            console.error(error);
+        }
+
+        if (error instanceof ValidationError) {
+
+            return res.status(400).json({
+                error: error.errors[0].message
+            });
+
+        }
+
+        if (error instanceof UniqueConstraintError) {
+
+            return res.status(409).json({
+                error: 'El DNI o el email ya existen'
+            });
+
+        }
+
+        res.status(500).json({
+            error: 'Error interno del servidor'
+        });
+
+    }
+
 };
 
 const actualizarSocio = async (req, res) => {
-try {
 
-    const socio = await Socio.findByPk(req.params.id);
+    try {
 
-    if (!socio) {
-    return res.status(404).json({
-        error: 'Socio no encontrado'
-    });
+        const socio = await Socio.findByPk(req.params.id);
+
+        if (!socio) {
+
+            return res.status(404).json({
+                error: 'Socio no encontrado'
+            });
+
+        }
+
+        await socio.update(req.body);
+
+        res.json(socio);
+
+    } catch (error) {
+
+        if (process.env.NODE_ENV !== 'test') {
+            console.error(error);
+        }
+
+        if (error instanceof ValidationError) {
+
+            return res.status(400).json({
+                error: error.errors[0].message
+            });
+
+        }
+
+        if (error instanceof UniqueConstraintError) {
+
+            return res.status(409).json({
+                error: 'El DNI o el email ya existen'
+            });
+
+        }
+
+        res.status(500).json({
+            error: 'Error interno del servidor'
+        });
+
     }
 
-    await socio.update(req.body);
-
-    res.json(socio);
-
-} catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-    error: 'Error al actualizar socio'
-    });
-}
 };
 
 const eliminarSocio = async (req, res) => {
-try {
 
-    const socio = await Socio.findByPk(req.params.id);
+    try {
 
-    if (!socio) {
-    return res.status(404).json({
-        error: 'Socio no encontrado'
-    });
+        const socio = await Socio.findByPk(req.params.id);
+
+        if (!socio) {
+
+            return res.status(404).json({
+                error: 'Socio no encontrado'
+            });
+
+        }
+
+        await socio.destroy();
+
+        res.json({
+            mensaje: 'Socio eliminado correctamente'
+        });
+
+    } catch (error) {
+
+        if (process.env.NODE_ENV !== 'test') {
+            console.error(error);
+        }
+
+        res.status(500).json({
+            error: 'Error interno del servidor'
+        });
+
     }
 
-    await socio.destroy();
-
-    res.json({
-    mensaje: 'Socio eliminado correctamente'
-    });
-
-} catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-    error: 'Error al eliminar socio'
-    });
-}
 };
 
 module.exports = {
-obtenerSocios,
-obtenerSocioPorId,
-crearSocio,
-actualizarSocio,
-eliminarSocio
+    obtenerSocios,
+    obtenerSocioPorId,
+    crearSocio,
+    actualizarSocio,
+    eliminarSocio
 };

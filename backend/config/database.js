@@ -18,14 +18,14 @@ module.exports = {
     }
   },
   test: {
-    username: process.env.DB_USER || 'app_user',
-    password: process.env.DB_PASSWORD || 'app_password',
-    database: process.env.DB_NAME + '_test' || 'app_database_test',
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 5432,
-    dialect: 'postgres',
-    logging: false
-  },
+  username: process.env.DB_USER || 'app_user',
+  password: process.env.DB_PASSWORD || 'app_password',
+  database: process.env.DB_NAME || 'app_database',
+  host: process.env.DB_HOST || 'localhost',
+  port: process.env.DB_PORT || 5432,
+  dialect: 'postgres',
+  logging: false
+},
   production: {
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
