@@ -3,88 +3,67 @@ import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 
 function Login() {
+const navigate = useNavigate();
 
-    const navigate = useNavigate();
+const [email, setEmail] = useState("");
+const [password, setPassword] = useState("");
+const [error, setError] = useState("");
+const [loading, setLoading] = useState(false);
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
-    const [error, setError] = useState("");
-
-    const handleSubmit = async (e) => {
-
+const handleSubmit = async (e) => {
     e.preventDefault();
-
     setError("");
+    setLoading(true);
 
     try {
-
-        const response = await api.post("/auth/login", {
+    const response = await api.post("/auth/login", {
         email,
         password,
-        });
+    });
 
-        localStorage.setItem(
-        "token",
-        response.data.token
-        );
-
-        localStorage.setItem(
-        "user",
-        JSON.stringify(response.data.user)
-        );
-
+    if (response.data?.token) {
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("user", JSON.stringify(response.data.user || {}));
         navigate("/dashboard");
-
-    } catch (err) {
-
-        setError(
-        err.response?.data?.error ||
-        "Error al iniciar sesión"
-        );
-
+    } else {
+        setError("No se recibió un token válido");
     }
+    } catch (err) {
+    setError(err.response?.data?.error || "Error al iniciar sesión");
+    } finally {
+    setLoading(false);
+    }
+};
 
-    };
+return (
+    <div style={{ maxWidth: "320px", margin: "50px auto", fontFamily: "sans-serif" }}>
+    <h1>Sistema Gimnasio</h1>
 
-    return (
-
-    <div>
-
-        <h1>Sistema Gimnasio</h1>
-
-        <form onSubmit={handleSubmit}>
-
+    <form onSubmit={handleSubmit}>
         <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e)=>setEmail(e.target.value)}
+        type="email"
+        placeholder="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        style={{ display: "block", width: "100%", marginBottom: "10px", padding: "8px" }}
         />
 
-        <br/>
-
         <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e)=>setPassword(e.target.value)}
+        type="password"
+        placeholder="Contraseña"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        style={{ display: "block", width: "100%", marginBottom: "10px", padding: "8px" }}
         />
 
-        <br/>
-
-        <button>
-        Ingresar
+        <button type="submit" disabled={loading}>
+        {loading ? "Ingresando..." : "Ingresar"}
         </button>
-
     </form>
 
-    {error && <p>{error}</p>}
-
+    {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
-
     );
-
 }
 
 export default Login;
